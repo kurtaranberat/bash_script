@@ -1,0 +1,27 @@
+#!/bin/bash
+
+izle_ve_bildirim_gonder() {
+    tail -Fn0 "$gunluk_dosyasi" | while read satır; do
+        if echo "$satir" | grep -i "error" &> /dev/null; then
+            bildirim_gönder "Hata" "$satir"
+        elif echo "$satir" | grep -i "warning" &> /dev/null; then
+            bildirim_gönder "Uyarı" "$satir"
+        fi
+    done
+}
+
+
+bildirim_gonder() {
+    konu="$1"
+    mesaj="$2"
+    echo "Konu: $konu"
+    echo "Mesaj: $mesaj"
+    #  e-posta gönderme  işlemi ekle 
+}
+
+echo "Sistem Günlüklerini İzleme ve Analiz Aracı"
+echo "İzlenen günlük dosyası: $gunluk_dosyasi"
+echo "Belirli olaylar algılandığında bildirim gönderilecektir."
+echo "Çıkmak için CTRL+C tuş kombinasyonunu kullanın."
+
+izle_ve_bildirim_gonder
